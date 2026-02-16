@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run typecheck)",
+      "Bash(npm run lint)",
+      "Bash(npm run build)",
+      "Bash(npm run dev)",
+      "Bash(npm test *)",
+      "Bash(npx wxt *)",
+      "Bash(npx tsc *)",
+      "Bash(npx prettier *)",
+      "Bash(node --version)",
+      "Bash(npm --version)",
+      "Bash(ls *)",
+      "Bash(cat package.json)",
+      "Bash(cat wxt.config.ts)",
+      "Bash(cat tsconfig.json)",
+      "Read",
+      "Grep",
+      "Glob"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(.git/**)",
+      "Read(**/node_modules/**)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && npm run typecheck 2>&1 | tail -20",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
